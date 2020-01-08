@@ -2,30 +2,32 @@ Class {
 	#name : #HTVFunctionCall,
 	#superclass : #Object,
 	#instVars : [
-		'functionName',
+		'functionDefinition',
 		'numberOfExecutions',
 		'outgoingCalls',
-		'position'
+		'positionStart',
+		'positionEnd',
+		'targetChar'
 	],
 	#category : #HopTraceVisualization
 }
 
 { #category : #accessing }
-HTVFunctionCall >> functionName [
-	^ functionName
+HTVFunctionCall >> functionDefinition [
+	^ functionDefinition
 ]
 
 { #category : #accessing }
-HTVFunctionCall >> functionName: anObject [
-	functionName := anObject
+HTVFunctionCall >> functionDefinition: anObject [
+	functionDefinition := anObject
 ]
 
 { #category : #initialization }
 HTVFunctionCall >> initialize [
 
 	super initialize.
-	position := -1.
-	functionName := 'anonymous'.
+	positionStart := -1.
+"	functionName := 'anonymous'."
 	outgoingCalls := OrderedCollection new.
 	numberOfExecutions := 0.
 ]
@@ -53,18 +55,28 @@ HTVFunctionCall >> outgoingCalls: anObject [
 
 { #category : #accessing }
 HTVFunctionCall >> position [
-	^ position
+	^ positionStart
 ]
 
 { #category : #accessing }
 HTVFunctionCall >> position: anObject [
-	position := anObject
+	positionStart := anObject
 ]
 
 { #category : #printing }
 HTVFunctionCall >> printOn: str [
 	super printOn: str.
 	str nextPut: $<.
-	functionName ifNotNil: [ str nextPutAll: functionName ].
+	"functionName ifNotNil: [ str nextPutAll: functionName ]."
 	str nextPut: $>
+]
+
+{ #category : #accessing }
+HTVFunctionCall >> targetChar [
+	^ targetChar
+]
+
+{ #category : #accessing }
+HTVFunctionCall >> targetChar: anObject [
+	targetChar := anObject
 ]
