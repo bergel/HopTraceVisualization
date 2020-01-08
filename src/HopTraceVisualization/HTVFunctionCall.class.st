@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'functionDefinition',
 		'numberOfExecutions',
-		'outgoingCalls',
 		'positionStart',
 		'positionEnd',
 		'targetChar'
@@ -27,8 +26,7 @@ HTVFunctionCall >> initialize [
 
 	super initialize.
 	positionStart := -1.
-"	functionName := 'anonymous'."
-	outgoingCalls := OrderedCollection new.
+	positionEnd := -1.
 	numberOfExecutions := 0.
 ]
 
@@ -44,22 +42,12 @@ HTVFunctionCall >> numberOfExecutions: anInteger [
 ]
 
 { #category : #accessing }
-HTVFunctionCall >> outgoingCalls [
-	^ outgoingCalls
-]
-
-{ #category : #accessing }
-HTVFunctionCall >> outgoingCalls: anObject [
-	outgoingCalls := anObject
-]
-
-{ #category : #accessing }
-HTVFunctionCall >> position [
+HTVFunctionCall >> positionStart [
 	^ positionStart
 ]
 
 { #category : #accessing }
-HTVFunctionCall >> position: anObject [
+HTVFunctionCall >> positionStart: anObject [
 	positionStart := anObject
 ]
 

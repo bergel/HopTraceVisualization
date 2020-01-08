@@ -8,6 +8,42 @@ Class {
 	#category : #HopTraceVisualization
 }
 
+{ #category : #'as yet unclassified' }
+HTVModel >> bindCallsToFunctions [
+	| fromFunction toFunction |
+	functionCalls do: [ :c |
+		fromFunction := self functionDefAtChar: c positionStart.
+		toFunction := self functionDefAtChar: c targetChar.
+		fromFunction addOutgoingFunction: toFunction.
+		toFunction addIncomingFunction: fromFunction.
+		fromFunction addOutgoingCall: c.
+		toFunction addIncomingCall: c.
+		 ]
+	
+]
+
+{ #category : #'as yet unclassified' }
+HTVModel >> functionDefAtChar: aCharIndex [
+	| selectedFunctionDef offsetFromBegining |
+	selectedFunctionDef := functionDefinitions first.
+	offsetFromBegining := aCharIndex - selectedFunctionDef positionStart.
+	functionDefinitions do: [ :f |
+		((f positionStart <= aCharIndex) and: [ offsetFromBegining > (aCharIndex - f positionStart) ]) 
+			ifTrue: [ selectedFunctionDef := f.
+						 offsetFromBegining := aCharIndex - f positionStart ]
+		 ].
+	^ selectedFunctionDef
+]
+
+{ #category : #'as yet unclassified' }
+HTVModel >> gtInspectorViewIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'View';
+		initializeView: [ | v |
+			self visualize ]
+]
+
 { #category : #initialization }
 HTVModel >> initialize [
 	super initialize.
@@ -30,6 +66,7 @@ HTVModel >> parseJSONAsStream: stream [
 	self processSymbolTable: (v at: 'symbols').
 	self processCalls: (v at: 'calls').
 
+	self bindCallsToFunctions
 ]
 
 { #category : #parsing }
@@ -60,7 +97,7 @@ HTVModel >> processKnownCall: d [
 	| c |
 	c := HTVFunctionCall new.
 	c targetChar: (d at: 'target').
-	c position: (d at: 'point').
+	c positionStart: (d at: 'point').
 	c numberOfExecutions: (d at: 'cnt').
 	functionCalls add: c
 ]
@@ -84,9 +121,22 @@ HTVModel >> processUnknownCall: d [
 	| c |
 	(d at: 'cnt') do: [ :dd |
 		c := HTVFunctionCall new.
-		c position: (d at: 'point').
+		c positionStart: (d at: 'point').
 		c targetChar: (dd at: 'target').
 		c numberOfExecutions: (dd at: 'cnt').
 		self assert: [ c numberOfExecutions isInteger ].
 		functionCalls add: c ].
+]
+
+{ #category : #'as yet unclassified' }
+HTVModel >> visualize [
+	| b |
+	b := RTMondrian new.
+	b nodes: functionDefinitions.
+	b edges connectToAll: #outgoingFunctions.
+	b layout tree.
+	b normalizer
+		normalizeSize: #numberOfExecutions;
+		normalizeColor: #numberOfExecutions.
+	^ b
 ]
