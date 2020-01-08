@@ -9,7 +9,8 @@ HopTraceTest >> testModel [
 
 	| m |
 	m := HTVModel new.
-	m parseJSONAsText: HopTraceExample new traceExample
+	m parseJSONAsText: HopTraceExample new traceExample.
+	self assert: m numberOfCalls equals: 97.
 ]
 
 { #category : #tests }

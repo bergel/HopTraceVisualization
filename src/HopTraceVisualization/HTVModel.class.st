@@ -13,6 +13,11 @@ HTVModel >> initialize [
 	functionCalls := OrderedCollection new
 ]
 
+{ #category : #'as yet unclassified' }
+HTVModel >> numberOfCalls [
+	^ functionCalls size
+]
+
 { #category : #parsing }
 HTVModel >> parseJSONAsStream: stream [
 	| v ds |

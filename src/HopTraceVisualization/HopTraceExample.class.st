@@ -666,6 +666,15 @@ const N =
 main( "maze", N ); '
 ]
 
+{ #category : #running }
+HopTraceExample >> run [
+	<script: 'self new run inspect'>
+	| m |
+	m := HTVModel new.
+	m parseJSONAsText: HopTraceExample new traceExample.
+	^ m
+]
+
 { #category : #'as yet unclassified' }
 HopTraceExample >> traceExample [
 

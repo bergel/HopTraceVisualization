@@ -60,3 +60,11 @@ HTVFunctionCall >> position [
 HTVFunctionCall >> position: anObject [
 	position := anObject
 ]
+
+{ #category : #printing }
+HTVFunctionCall >> printOn: str [
+	super printOn: str.
+	str nextPut: $<.
+	functionName ifNotNil: [ str nextPutAll: functionName ].
+	str nextPut: $>
+]
