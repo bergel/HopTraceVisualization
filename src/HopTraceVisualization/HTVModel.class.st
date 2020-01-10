@@ -8,7 +8,7 @@ Class {
 	#category : #HopTraceVisualization
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - parsing trace' }
 HTVModel >> bindCallsToFunctions [
 	| fromFunction toFunction |
 	functionCalls do: [ :c |
@@ -17,13 +17,13 @@ HTVModel >> bindCallsToFunctions [
 		fromFunction addOutgoingFunction: toFunction.
 		toFunction addIncomingFunction: fromFunction.
 		fromFunction addOutgoingCall: c.
-		toFunction addIncomingCall: c.
-		 ]
+		toFunction addIncomingCall: c ]
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - parsing trace' }
 HTVModel >> functionDefAtChar: aCharIndex [
+	"Use the symbol table to look up the function at a given char"
 	| selectedFunctionDef offsetFromBegining |
 	selectedFunctionDef := functionDefinitions first.
 	offsetFromBegining := aCharIndex - selectedFunctionDef positionStart.
@@ -35,7 +35,7 @@ HTVModel >> functionDefAtChar: aCharIndex [
 	^ selectedFunctionDef
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visualization }
 HTVModel >> gtInspectorViewIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite roassal2
@@ -51,18 +51,18 @@ HTVModel >> initialize [
 	functionDefinitions := OrderedCollection new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'public - metrics' }
 HTVModel >> numberOfCalls [
 	^ functionCalls size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'public - metrics' }
 HTVModel >> numberOfFunctionDefinitions [
 	^ functionDefinitions size
 ]
 
-{ #category : #parsing }
-HTVModel >> parseJSONAsStream: stream [
+{ #category : #'public - parsing trace' }
+HTVModel >> parseTraceJSONAsStream: stream [
 	| v |
 	v := (NeoJSONReader on: stream) next.
 	((v at: 'format') = 'memviz' and: [ (v at: 'version') = '0.0.1' ]) 
@@ -74,13 +74,13 @@ HTVModel >> parseJSONAsStream: stream [
 	self bindCallsToFunctions
 ]
 
-{ #category : #parsing }
-HTVModel >> parseJSONAsText: aJSONAsText [
+{ #category : #'public - parsing trace' }
+HTVModel >> parseTraceJSONAsText: aJSONAsText [
 
-	^ self parseJSONAsStream: aJSONAsText readStream
+	^ self parseTraceJSONAsStream: aJSONAsText readStream
 ]
 
-{ #category : #parsing }
+{ #category : #'private - parsing trace' }
 HTVModel >> processCalls: vs [
 
 	| ds |
@@ -96,7 +96,7 @@ HTVModel >> processCalls: vs [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - parsing trace' }
 HTVModel >> processKnownCall: d [
 	
 	| c |
@@ -107,7 +107,7 @@ HTVModel >> processKnownCall: d [
 	functionCalls add: c
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - parsing trace' }
 HTVModel >> processSymbolTable: d [
 
 	| fDef |
@@ -121,7 +121,7 @@ HTVModel >> processSymbolTable: d [
 	] 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - parsing trace' }
 HTVModel >> processUnknownCall: d [
 	| c |
 	(d at: 'cnt') do: [ :dd |
@@ -133,7 +133,7 @@ HTVModel >> processUnknownCall: d [
 		functionCalls add: c ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #visualization }
 HTVModel >> visualize [
 	| b |
 	b := RTMondrian new.
