@@ -56,6 +56,11 @@ HTVModel >> numberOfCalls [
 	^ functionCalls size
 ]
 
+{ #category : #'as yet unclassified' }
+HTVModel >> numberOfFunctionDefinitions [
+	^ functionDefinitions size
+]
+
 { #category : #parsing }
 HTVModel >> parseJSONAsStream: stream [
 	| v |
