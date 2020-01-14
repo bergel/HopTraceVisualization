@@ -61,6 +61,26 @@ HTVModel >> numberOfFunctionDefinitions [
 	^ functionDefinitions size
 ]
 
+{ #category : #'public - parsing memory' }
+HTVModel >> parseMemoryJSONAsStream: stream [
+	| v |
+	v := (NeoJSONReader on: stream) next.
+	(v includesKey: 'monitor') ifFalse: [ self error: 'Incorrect format for memory' ].
+	self halt.
+
+	
+	((v at: 'monitor') at: 'function') do: [ :arr |
+		self halt.
+	]
+
+]
+
+{ #category : #'public - parsing memory' }
+HTVModel >> parseMemoryJSONAsText: aJSONAsText [
+
+	^ self parseMemoryJSONAsStream: aJSONAsText readStream
+]
+
 { #category : #'public - parsing trace' }
 HTVModel >> parseTraceJSONAsStream: stream [
 	| v |
