@@ -66,9 +66,9 @@ HTVModel >> parseMemoryJSONAsStream: stream [
 	| v |
 	v := (NeoJSONReader on: stream) next.
 	(v includesKey: 'monitor') ifFalse: [ self error: 'Incorrect format for memory' ].
-	self halt.
 
-	
+"	((functionDefinitions collect: #positionStart) select: [ :i | #(11134 9241 9241 11008 6198 5856 12976 6984 6984 12928 5703 11908 14181 13978 14181 11519 14048 804 4005 485 1047 120 2724 8284 3851 17192 17192 ) includes: i ]) size"
+
 	((v at: 'monitor') at: 'function') do: [ :arr |
 		self halt.
 	]
@@ -155,6 +155,8 @@ HTVModel >> processUnknownCall: d [
 
 { #category : #visualization }
 HTVModel >> visualize [
+"
+USING ROASSAL2
 	| b |
 	b := RTMondrian new.
 	b nodes: functionDefinitions.
@@ -163,5 +165,5 @@ HTVModel >> visualize [
 	b normalizer
 		normalizeSize: #numberOfExecutions;
 		normalizeColor: #numberOfExecutions.
-	^ b
+	^ b"
 ]
