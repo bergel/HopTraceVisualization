@@ -38,10 +38,9 @@ HTVModel >> functionDefAtChar: aCharIndex [
 { #category : #visualization }
 HTVModel >> gtInspectorViewIn: composite [
 	<gtInspectorPresentationOrder: -10>
-	composite roassal2
+	composite roassal3
 		title: 'View';
-		initializeView: [ | v |
-			self visualize ]
+		initializeCanvas: [ self visualize ]
 ]
 
 { #category : #initialization }
@@ -155,6 +154,36 @@ HTVModel >> processUnknownCall: d [
 
 { #category : #visualization }
 HTVModel >> visualize [
+
+	| c functionShapes eb interaction |
+	c := RSCanvas new.
+	functionShapes := functionDefinitions collect: [ :f |
+			(RSBox new model: f) @ RSDraggable @ RSPopup.
+		 ] as: RSGroup.
+	c addAll: functionShapes.
+	eb := RSEdgeBuilder arrowedLine
+		canvas: c.
+	eb shape strokeColor: Color gray.
+	eb
+		withBorderAttachPoint;
+		connectToAll: #outgoingFunctions.
+	RSNormalizer size
+		shapes: functionShapes;
+		normalize: #numberOfExecutions.
+	RSNormalizer color
+		shapes: functionShapes;
+		from: Color gray;
+		to: Color red;
+		normalize: #numberOfExecutions.
+	
+	interaction := RSHighlightable new.
+	interaction highlightBorder: (RSBorder new width: 2).
+	interaction withEdges.
+	functionShapes @ interaction.
+	
+	RSTreeLayout on: functionShapes.
+	^ c @ RSCanvasController
+
 "
 USING ROASSAL2
 	| b |
