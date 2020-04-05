@@ -155,7 +155,7 @@ HTVModel >> processUnknownCall: d [
 { #category : #visualization }
 HTVModel >> visualize [
 
-	| c functionShapes eb interaction |
+	| c functionShapes eb interaction searchInteraction |
 	c := RSCanvas new.
 	functionShapes := functionDefinitions collect: [ :f |
 			(RSBox new model: f) @ RSDraggable @ RSPopup.
@@ -182,7 +182,11 @@ HTVModel >> visualize [
 	functionShapes @ interaction.
 	
 	RSTreeLayout on: functionShapes.
-	^ c @ RSCanvasController
+	searchInteraction := RSSearchInCanvas new.
+	searchInteraction 
+		doNotUseExactMatch; 
+		colorToHighlight: Color blue.
+	^ c @ (RSCanvasController new addInteraction: searchInteraction; yourself)
 
 "
 USING ROASSAL2
