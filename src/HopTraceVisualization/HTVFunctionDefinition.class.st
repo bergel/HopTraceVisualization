@@ -45,6 +45,12 @@ HTVFunctionDefinition >> functionName: anObject [
 	functionName := anObject
 ]
 
+{ #category : #testing }
+HTVFunctionDefinition >> includesCharIndex: aCharIndex [
+	"Return true if the provided char index is comprised in the function definition"
+	^ (positionStart to: positionEnd + 1) includes: aCharIndex
+]
+
 { #category : #initialization }
 HTVFunctionDefinition >> initialize [
 	super initialize.
@@ -52,6 +58,11 @@ HTVFunctionDefinition >> initialize [
 	incomingCalls := OrderedCollection new.
 	outgoingFunctions := OrderedCollection new.
 	incomingFunctions := OrderedCollection new.
+]
+
+{ #category : #testing }
+HTVFunctionDefinition >> lengthInCharacters [
+	^ positionEnd - positionStart
 ]
 
 { #category : #accessing }

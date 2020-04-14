@@ -14,25 +14,33 @@ HTVModel >> bindCallsToFunctions [
 	functionCalls do: [ :c |
 		fromFunction := self functionDefAtChar: c positionStart.
 		toFunction := self functionDefAtChar: c targetChar.
-		fromFunction addOutgoingFunction: toFunction.
-		toFunction addIncomingFunction: fromFunction.
-		fromFunction addOutgoingCall: c.
-		toFunction addIncomingCall: c ]
+		(fromFunction notNil and: [ toFunction notNil ]) ifTrue: [
+			fromFunction addOutgoingFunction: toFunction.
+			toFunction addIncomingFunction: fromFunction.
+			fromFunction addOutgoingCall: c.
+			toFunction addIncomingCall: c ] 
+		]
 	
 ]
 
 { #category : #'private - parsing trace' }
 HTVModel >> functionDefAtChar: aCharIndex [
 	"Use the symbol table to look up the function at a given char"
-	| selectedFunctionDef offsetFromBegining |
+	
+	| candidateFunctions |
+	candidateFunctions := functionDefinitions select: [ :f | f includesCharIndex: aCharIndex ].
+	candidateFunctions isEmpty ifTrue: [ ^ nil ]. 
+	^ candidateFunctions detectMin: #lengthInCharacters.
+"	| selectedFunctionDef offsetFromBegining |
 	selectedFunctionDef := functionDefinitions first.
 	offsetFromBegining := aCharIndex - selectedFunctionDef positionStart.
 	functionDefinitions do: [ :f |
-		((f positionStart <= aCharIndex) and: [ offsetFromBegining > (aCharIndex - f positionStart) ]) 
+		((f positionStart <= aCharIndex) and: [ (offsetFromBegining > (aCharIndex - f positionStart)) and: [ aCharIndex <= f positionEnd ] ]) 
 			ifTrue: [ selectedFunctionDef := f.
 						 offsetFromBegining := aCharIndex - f positionStart ]
 		 ].
-	^ selectedFunctionDef
+	Halt if: [ selectedFunctionDef functionName = 'Cons.prototype.toString' ].
+	^ selectedFunctionDef"
 ]
 
 { #category : #visualization }
@@ -117,7 +125,7 @@ HTVModel >> processCalls: vs [
 
 { #category : #'private - parsing trace' }
 HTVModel >> processKnownCall: d [
-	
+
 	| c |
 	c := HTVFunctionCall new.
 	c targetChar: (d at: 'target').
@@ -163,6 +171,7 @@ HTVModel >> visualize [
 	c addAll: functionShapes.
 	eb := RSEdgeBuilder arrowedLine
 		canvas: c.
+	eb moveBehind.
 	eb shape strokeColor: Color gray.
 	eb
 		withBorderAttachPoint;

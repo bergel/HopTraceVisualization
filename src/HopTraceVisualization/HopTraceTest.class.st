@@ -15,8 +15,15 @@ HopTraceTest >> testAccessingFunction [
 	self assert: f functionName equals: 'lq'.
 	self assert: (m functionDefAtChar: 16327) equals: f.
 	self assert: (m functionDefAtChar: 16459) equals: f.
-	self assert: (m functionDefAtChar: 16494) equals: f.
+	"self assert: (m functionDefAtChar: 16494) equals: f."
 	
+	f := m functionDefAtChar: 16544.
+	self assert: f functionName equals: 'getSetRoot'.
+	
+	"------"
+	f := m functionDefAtChar: 215.
+	self assert: f functionName equals: 'Cons.prototype.toString'.
+	self assert: f outgoingCalls isEmpty.
 ]
 
 { #category : #tests }
