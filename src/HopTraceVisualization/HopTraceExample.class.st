@@ -1643,6 +1643,7 @@ HopTraceExample >> traceExample [
  { "filename": "maze.js",
    "calls": [
      { "point": 791, "cnt": [ { "target": 617, "cnt": 15842619 } ] },
+     { "point": 2938, "cnt": [ { "target": 3913, "cnt": 2000350 } ] },
      { "point": 3905, "cnt": 201, "target": 2724 },
      { "point": 3939, "cnt": 2000350, "target": 15923 },
      { "point": 3950, "cnt": 2000350, "target": 422 },
@@ -1746,6 +1747,7 @@ HopTraceExample >> traceExample [
      { "point": 12354, "cnt": 5491482, "target": 16554 },
      { "point": 12442, "cnt": 2000149, "target": 16694 },
      { "point": 12510, "cnt": 2000149, "target": 16636 },
+     { "point": 13061, "cnt": [ { "target": 6984, "cnt": 2000350 } ] },
      { "point": 13105, "cnt": 2000149, "target": 12976 },
      { "point": 13167, "cnt": 201, "target": 12976 },
      { "point": 13375, "cnt": 383448, "target": 13252 },
@@ -1759,10 +1761,10 @@ HopTraceExample >> traceExample [
      { "point": 14547, "cnt": 5920759, "target": 13978 },
      { "point": 14553, "cnt": 5920759, "target": 14417 },
      { "point": 15965, "cnt": 2000350, "target": 422 },
-     { "point": 16245, "cnt": 14485072, "target": 13252 },
+     { "point": 16245, "cnt": 14485072, "target": 16112 },
      { "point": 16459, "cnt": 2591948, "target": 16325 },
      { "point": 16494, "cnt": 11893124, "target": 16325 },
-     { "point": 16544, "cnt": 20983709, "target": 13252 },
+     { "point": 16544, "cnt": 20983709, "target": 16112 },
      { "point": 16604, "cnt": 5491482, "target": 16082 },
      { "point": 16625, "cnt": 5491482, "target": 16082 },
      { "point": 16680, "cnt": 6000447, "target": 16082 },
@@ -1800,8 +1802,8 @@ HopTraceExample >> traceExample [
  { "point": 10847, "type": "fun", "name": "bitTest", "endpoint": 10903 },
  { "point": 11008, "type": "fun", "name": "dotSpace", "endpoint": 11104 },
  { "point": 11134, "type": "fun", "name": "displayHexBottom", "endpoint": 11351 },
- { "point": 11519, "type": "fun", "name": "permuteVec", "endpoint": 11567 },
- { "point": 11766, "type": "fun", "name": "Array.prototype.forEachRev", "endpoint": 11793 },
+ { "point": 11519, "type": "fun", "name": "permuteVec", "endpoint": 11734 },
+ { "point": 11766, "type": "fun", "name": "Array.prototype.forEachRev", "endpoint": 11864 },
  { "point": 11908, "type": "fun", "name": "digMaze", "endpoint": 12636 },
  { "point": 11976, "type": "fun", "name": "%%anonymous", "endpoint": 12571 },
  { "point": 12928, "type": "fun", "name": "dfsMaze", "endpoint": 13184 },
@@ -1830,7 +1832,8 @@ HopTraceExample >> traceExample [
  { "point": 17192, "type": "fun", "name": "main", "endpoint": 17490 }
 ],
 "config": {
- "hash": 53965070345405,
+ "hash": 53748832148537,
+ "debug-client": 0,
  "tmp": "/tmp/serrano/J2S/maze.js",
  "optim-tyflow": true,
  "optim-uninit": true,
@@ -1856,6 +1859,7 @@ HopTraceExample >> traceExample [
  "optim-globprop": true,
  "optim-inline-method": true,
  "optim-integer": true,
+ "debug-stage": true,
  "commonjs-export": true,
  "return-as-exit": false,
  "filename": "maze.js",
@@ -1868,7 +1872,7 @@ HopTraceExample >> traceExample [
  "hopscript-header": true,
  "type-annotations": false,
  "optim": 1000,
- "verbose": 0,
+ "verbose": 2,
  "long-size": 64,
  "int-size": 61,
  "plugins-loader": false,
@@ -1877,6 +1881,7 @@ HopTraceExample >> traceExample [
  "function-nice-name": true,
  "profile-symbols": true,
  "profile-call": true,
+ "profile-alloc": true,
  "optim-ccall": true,
  "es6-let": true,
  "es6-const": true,
@@ -1884,12 +1889,12 @@ HopTraceExample >> traceExample [
  "es6-default-value": true,
  "es6-rest-argument": true,
  "es2017-async": true,
- "debug": 0,
- "debug-client": 0
+ "debug": 0
 },
 "run": {
+ "HOPTRACE": "hopscript:call hopscript:symtable format:memviz j2s:loc",
  "commandline": "./a.out",
- "date": "Fri Apr  3 18:33:32 2020"
+ "date": "Mon May 11 16:33:59 2020"
  }
 }'
 ]
