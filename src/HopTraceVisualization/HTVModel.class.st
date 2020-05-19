@@ -172,7 +172,7 @@ HTVModel >> visualize [
 	eb := RSEdgeBuilder arrowedLine
 		canvas: c.
 	eb moveBehind.
-	eb shape strokeColor: Color gray.
+	eb color: Color gray.
 	eb
 		withBorderAttachPoint;
 		connectToAll: #outgoingFunctions.
